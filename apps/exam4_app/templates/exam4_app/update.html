@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'exam_app/styles.css' %}" media="screen" title="no title"  charset="utf-8">
+    <title>Welcome</title>
+    <style>
+    a {
+        float: right;
+        font-size: 24px;
+        margin-left: 15px;
+    }
+    </style>
+</head>
+<body>
+    <a href="/exam4/clear">Logout</a>
+    <a href="/exam4/display">Dashboard</a>
+    {% if messages %}
+    <ul>
+        {% for error in messages %}
+           <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% for x in update %}
+    <form action="/exam4/process/{{x.id}}" method="post">
+        {% csrf_token %}
+    <h3>Update Appointment</h3>
+    
+    Tasks: <input type="text" name="task" value="{{x.tasks}}" id=""> <br> <br>
+    Status: <select name="status" id="">
+            <option value="Done">Done</option>
+            <option value="Pending">Pending</option>
+            <option value="Missed">Missed</option>
+            </select> <br> <br>
+    Date: <input type="date" name="date" value="{{x.date}}" id=""> <br> <br>
+    Time: <input type="time" name="time" value="{{x.time}}" id=""> <br> <br>
+    <input type="submit" value="Add">
+    {% endfor %}
+    </form>
+</body>
+</html>

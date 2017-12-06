@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Quotes</title>
+</head>
+<style>
+table, tr, th, td{
+    border: 2px solid black;
+    border-collapse: collapse;
+    width: 500px;
+    font-size: 24px;
+}
+#logout{
+font-size: 24px;
+float: right;
+}
+form{
+    font-size: 24px;
+}
+</style>
+<body>
+    <a id="logout" href="/exam4/clear">Logout</a>
+    <h1>Welcome {{request.session.name}}</h1>
+        <h2>Here are your appointments for today: {{now.date}}</h2>
+            <table>
+                <tr>
+                    <th>Tasks</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+                {% for x in appt %}
+                <tr>
+                    <td>{{x.tasks}}</td>
+                    <td>{{x.time}}</td>
+                    <td>{{x.status}}</td>
+                    <td> <a href="/exam4/appt/{{x.id}}">Edit</a>   <a href="/exam4/appt/{{x.id}}/delete">Delete</a></td>
+                </tr>
+                {% endfor %}
+            </table> <br> <br>
+        <h2>Your Other Appointments: </h2>
+            <table>
+                <tr>
+                    <th>Tasks</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                </tr>
+                {% for x in future %}
+                <tr>
+                    <td>{{x.tasks}}</td>
+                    <td>{{x.date}}</td>
+                    <td>{{x.time}}</td>
+                </tr>
+                {% endfor %}
+            </table> <br> <br>
+            {% if messages %}
+            <ul>
+                {% for error in messages %}
+                   <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+    <form action="/exam4/newappt" method="post">
+        {% csrf_token %}
+    <h3>Add Appointment</h3>
+    Date: <input type="date" name="date" id=""> <br> <br>
+    Time: <input type="time" name="time" id=""> <br> <br>
+    Tasks: <input type="text" name="task" id=""> <br> <br>
+    <input type="submit" value="Add">
+    </form>
+</body>
+
+</html>
